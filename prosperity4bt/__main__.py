@@ -18,8 +18,8 @@ def run(
     print_output: Annotated[bool, Option("--print", help="Print the trader's output to stdout while it's running.")] = False,
     match_trades: Annotated[TradeMatchingMode, Option(help="How to match orders against market trades. 'all' matches trades with prices equal to or worse than your quotes, 'worse' matches trades with prices worse than your quotes, 'none' does not match trades against orders at all.")] = TradeMatchingMode.all,
     no_progress: Annotated[bool, Option("--no-progress", help="Don't show progress bars.")] = False,
-    merge_pnl: Annotated[bool, Option("--merge-pnl", help="Merge profit and loss across days.")] = True,
-    vis: Annotated[bool, Option("--vis", help="Open backtest results in https://kevin-fu1.github.io/imc-prosperity-4-visualizer/ when done.")] = True,
+    no_merge_pnl: Annotated[bool, Option("--no-merge-pnl", help="Merge profit and loss across days.")] = False,
+    no_vis: Annotated[bool, Option("--no-vis", help="Open backtest results in https://kevin-fu1.github.io/imc-prosperity-4-visualizer/ when done.")] = False,
     original_timestamps: Annotated[bool, Option("--original-timestamps", help="Preserve original timestamps in output log rather than making them increase across days.")] = False,
 ):
     if out is not None and no_out:
@@ -31,8 +31,8 @@ def run(
     options.print_output = print_output
     options.trade_matching_mode = match_trades
     options.show_progress = not no_progress
-    options.merge_profit_loss = merge_pnl
-    options.show_visualizer = vis
+    options.merge_profit_loss = not no_merge_pnl
+    options.show_visualizer = not no_vis
     options.merge_timestamps = not original_timestamps
 
     back_tester = BackTester(options)
